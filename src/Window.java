@@ -5,9 +5,10 @@ public class Window extends JFrame implements Runnable {
 
     public Graphics2D g2;
     public KL keyListener = new KL();
-    public Rect playerOne, ai, ball;
+    public Rect playerOne, ai, ballRect;
     public PlayerConstroller playerConstroller;
     public AIController aiController;
+    public Ball ball;
     public Window() {
         this.setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         this.setTitle(Constants.SCREEN_TITLE);
@@ -23,9 +24,9 @@ public class Window extends JFrame implements Runnable {
         playerConstroller = new PlayerConstroller(playerOne, keyListener);
 
         ai = new Rect(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH - Constants.HZ_PADDING, 40,  Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT, Constants.PADDLE_COLOR);
-        ball = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT /2, Constants.BALL_WIDTH, Constants.BALL_WIDTH, Constants.PADDLE_COLOR);
-
-        aiController = new AIController(new PlayerConstroller(ai), ball);
+        ballRect = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT /2, Constants.BALL_WIDTH, Constants.BALL_WIDTH, Constants.PADDLE_COLOR);
+        ball = new Ball(ballRect, playerOne, ai);
+        aiController = new AIController(new PlayerConstroller(ai), ballRect);
     }
 
     public void update(double dt) {
@@ -36,6 +37,7 @@ public class Window extends JFrame implements Runnable {
 
         playerConstroller.update(dt);
         aiController.update(dt);
+        ball.update(dt);
     }
 
     public void draw(Graphics g) {
@@ -45,7 +47,7 @@ public class Window extends JFrame implements Runnable {
 
         playerOne.draw(g2);
         ai.draw(g2);
-        ball.draw(g2);
+        ballRect.draw(g2);
     }
 
     @Override
