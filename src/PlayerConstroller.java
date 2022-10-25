@@ -4,18 +4,37 @@ public class PlayerConstroller {
     public Rect rect;
     public KL keyListener;
 
+    // Player controller
     public PlayerConstroller(Rect rect, KL keyListener) {
         this.rect = rect;
         this.keyListener = keyListener;
     }
 
+    // AI controller
+    public PlayerConstroller(Rect rect) {
+        this.rect = rect;
+        this.keyListener = null;
+    }
+
     public void update(double dt) {
-        if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
-            if ((rect.y + Constants.PADDLE_SPEED * dt) + rect.height < Constants.SCREEN_HEIGHT - Constants.INSETS_BOTTOM)
-                this.rect.y += Constants.PADDLE_SPEED  * dt;
-        } else if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
-            if (rect.y - Constants.PADDLE_SPEED  * dt > Constants.TOOLBAR_HEIGHT)
-                this.rect.y -= Constants.PADDLE_SPEED  * dt;
+        if (keyListener != null) {
+            if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
+                moveDown(dt);
+            } else if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
+                moveUp(dt);
+            }
         }
     }
+
+    public void moveUp(double dt) {
+        if (rect.y - Constants.PADDLE_SPEED  * dt > Constants.TOOLBAR_HEIGHT)
+            this.rect.y -= Constants.PADDLE_SPEED  * dt;
+    }
+
+    public void moveDown(double dt) {
+        if ((rect.y + Constants.PADDLE_SPEED * dt) + rect.height < Constants.SCREEN_HEIGHT - Constants.INSETS_BOTTOM)
+            this.rect.y += Constants.PADDLE_SPEED  * dt;
+    }
+
+
 }
