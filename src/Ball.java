@@ -1,14 +1,18 @@
 public class Ball {
     public Rect rect;
     public Rect leftPaddle, rightPaddle;
+    public Text leftScoreText, rightScoreText;
 
     // velocity x, y
-    private double vy = 400.0;
+    private double vy = 10.0;
     private double vx = -150.0;
-    public Ball(Rect rect, Rect leftPaddle, Rect rightPaddle) {
+
+    public Ball(Rect rect, Rect leftPaddle, Rect rightPaddle, Text leftScoreText, Text rightScoreText) {
         this.rect = rect;
         this.leftPaddle = leftPaddle;
         this.rightPaddle = rightPaddle;
+        this.leftScoreText = leftScoreText;
+        this.rightScoreText = rightScoreText;
     }
 
     public double calculateNewVelocityAngle(Rect paddle) {
@@ -32,7 +36,16 @@ public class Ball {
                 this.vx = newVx * (-1.0 * oldSign);
                 this.vy = newVy;
             } else if (this.rect.x + this.rect.width < this.leftPaddle.x) {
-                System.out.println("You lost");
+                int rightScore = Integer.parseInt(rightScoreText.text);
+                rightScore++;
+                rightScoreText.text = "" + rightScore;
+                this.rect.x = Constants.SCREEN_WIDTH / 2.0;
+                this.rect.y = Constants.SCREEN_HEIGHT / 2.0;
+                this.vy = 10.0;
+                this.vx = -150.0;
+                if (rightScore >= Constants.WIN_SCORE) {
+                    System.out.println("right WON");
+                }
             }
         } else if (vx > 0)  { // right
             if (this.rect.x + this.rect.width >= this.rightPaddle.x && this.rect.x <= this.rightPaddle.x + this.rightPaddle.width &&
@@ -45,7 +58,16 @@ public class Ball {
                 this.vx = newVx * (-1.0 * oldSign);
                 this.vy = newVy;
             } else if (this.rect.x + this.rect.width > this.rightPaddle.x + this.rightPaddle.width) {
-                System.out.println("AI has lost a point");
+                int leftScore = Integer.parseInt(leftScoreText.text);
+                leftScore++;
+                leftScoreText.text = "" + leftScore;
+                this.rect.x = Constants.SCREEN_WIDTH / 2.0;
+                this.rect.y = Constants.SCREEN_HEIGHT / 2.0;
+                this.vy = 10.0;
+                this.vx = -150.0;
+                if (leftScore >= Constants.WIN_SCORE) {
+                    System.out.println("left WON");
+                }
             }
         }
 
@@ -63,5 +85,6 @@ public class Ball {
         // velocity = velocity + acceleration
         this.rect.x += vx * dt;
         this.rect.y += vy * dt;
+
     }
 }
