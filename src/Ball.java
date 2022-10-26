@@ -44,7 +44,7 @@ public class Ball {
                 this.vy = 10.0;
                 this.vx = -150.0;
                 if (rightScore >= Constants.WIN_SCORE) {
-                    System.out.println("right WON");
+                    Main.changeState(2);
                 }
             }
         } else if (vx > 0)  { // right
@@ -66,7 +66,7 @@ public class Ball {
                 this.vy = 10.0;
                 this.vx = -150.0;
                 if (leftScore >= Constants.WIN_SCORE) {
-                    System.out.println("left WON");
+                    Main.changeState(2);
                 }
             }
         }

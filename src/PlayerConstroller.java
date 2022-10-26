@@ -35,6 +35,4 @@ public class PlayerConstroller {
         if ((rect.y + Constants.PADDLE_SPEED * dt) + rect.height < Constants.SCREEN_HEIGHT - Constants.INSETS_BOTTOM)
             this.rect.y += Constants.PADDLE_SPEED  * dt;
     }
-
-
 }
